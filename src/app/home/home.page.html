@@ -13,7 +13,10 @@
   <ion-grid class="section" *ngFor="let section of sections">
     <ion-row class="header">
       <ion-col class="title">
-        <h1>{{section.title}}</h1>
+        
+        <h1>
+          <ion-icon [ios]="section.icon"></ion-icon>
+          {{section.title}}</h1>
       </ion-col>
     </ion-row>
 
@@ -25,7 +28,6 @@
         <ion-col [size]="sectionsConfig.contentSize" class="content">
           <div class="contentTitle">
               <h2>
-                <ion-icon [ios]="new.header.icon"></ion-icon>
                 {{new.header.title}}
               </h2>
           </div>
