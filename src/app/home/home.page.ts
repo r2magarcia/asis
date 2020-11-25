@@ -1,16 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-interface SectionsI {
-  header: {
-    title: string
-  }
-  body: {
-    img: string
-    content: string
-    imgSize?: number
-    contentSize?: number
-  }
-}
+import { NewsService } from '../services/news.service'
 
 @Component({
   selector: 'app-home',
@@ -19,37 +8,26 @@ interface SectionsI {
 })
 export class HomePage implements OnInit {
 
-  sectionsConfig = {
-    imgSize: 3,
-    contentSize: 9
+  constructor(public newsService: NewsService) {
+    
   }
 
-  sections: Array<SectionsI> = [
-    {
-      header: {
-        title: "Noticias"
-      },
-      body: {
-        img: "https://picsum.photos/200/300?random=1",
-        content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, earum cumque laudantium accusantium fugiat saepe cupiditate perspiciatis commodi quod tempore illo doloribus mollitia et veniam debitis sequi accusamus vitae! Laudantium.",
-        imgSize: 3,
-        contentSize: 9
-      }
-    },
-    {
-      header: {
-        title: "Salud"
-      },
-      body: {
-        img: "https://picsum.photos/200/300?random=2",
-        content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, earum cumque laudantium accusantium fugiat saepe cupiditate perspiciatis commodi quod tempore illo doloribus mollitia et veniam debitis sequi accusamus vitae! Laudantium.",
-      }
-    }
-  ]
-
-  constructor() { }
+  sectionsConfig = this.newsService.getConfig();
+  sections =  this.newsService.getNews();
 
   ngOnInit() {
+    console.log(this.sections);
+  }
+  //el.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").indexOf(name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) > -1;
+  getItems(e: any){
+    if(e.detail.value != ""){
+      this.sections = [];
+      this.sections = this.newsService.getNewsByName(e.detail.value);
+    }else{
+      this.sections = [];
+      this.sections =  this.newsService.getNews();
+    }
+    
   }
 
 }

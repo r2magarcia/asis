@@ -8,22 +8,35 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar showCancelButton="always"></ion-searchbar>
+  <ion-searchbar showCancelButton="always" (ionChange)="getItems($event)"></ion-searchbar>
 
   <ion-grid class="section" *ngFor="let section of sections">
     <ion-row class="header">
       <ion-col class="title">
-        {{section.header.title}}
+        <h1>{{section.title}}</h1>
       </ion-col>
     </ion-row>
 
-    <ion-row class="body">
-      <ion-col [size]="section.body.imgSize && section.body.imgSize || sectionsConfig.imgSize">
-        <img [src]="section.body.img" alt="">
-      </ion-col>
-      <ion-col [size]="section.body.contentSize && section.body.contentSize || sectionsConfig.contentSize" class="content">
-        {{section.body.content}}
-      </ion-col>
+    <ion-row class="body" *ngFor="let new of section.news">
+      <ion-card [routerLink] = "['/news/'+section.id+'/'+new.header.id]">
+        <ion-row>
+          <img [src]="new.body.img" alt="">
+        </ion-row>
+        <ion-col [size]="sectionsConfig.contentSize" class="content">
+          <div class="contentTitle">
+              <h2>
+                <ion-icon [ios]="new.header.icon"></ion-icon>
+                {{new.header.title}}
+              </h2>
+          </div>
+          <div class="contentbody">
+            {{new.body.content.substring(0,244)}}
+          </div>
+          <ion-chip outline color="warning" *ngFor="let category of new.header.categories">
+            <ion-label>{{category}}</ion-label>
+          </ion-chip>
+        </ion-col>
+      </ion-card>
     </ion-row>
 
   </ion-grid>
